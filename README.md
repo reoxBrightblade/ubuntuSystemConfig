@@ -1,5 +1,5 @@
 # ubuntuSystemConfig
-Guía de configuración del sistema para computo cientifico con base en _Ubuntu 22.04 lts_.
+Guía de configuración del sistema para computo cientifico con base en *Ubuntu 22.04 lts*.
 
 * Configuración del sistema
 * Instalación de paquetes necesarios
