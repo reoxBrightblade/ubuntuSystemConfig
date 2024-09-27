@@ -50,7 +50,8 @@ gnome-shell-extensions nautilus-dropbox nautilus-dropbox mpv neofetch unrar tran
 speedtest-cli gnome-calendar python3-pip ttf-mscorefonts-installer qml-module-qtquick-controls openssh-server \
 software-properties-common net-tools xz-utils environment-modules sqlite3 gdbmtool gnupg icecc moreutils ubuntu-dev-tools \
 ca-certificates gcc-12 g++-12 gfortran-12 bison yacc byacc inxi gperf autogen guile-3.0 texinfo texify texlive sphinx \
-gfortran-11 gawk gdc-12 m4 ncurses-term linux-headers-$(uname -r) qemu qemu-system qemu-user-static cmake flex
+gfortran-11 gawk gdc-12 m4 ncurses-term linux-headers-$(uname -r) qemu qemu-system qemu-user-static cmake flex \
+sqlite3-tools
 sleep 5
 
 echo '***** Instalando librerías' && sleep 2
@@ -65,7 +66,7 @@ sudo apt install cuda-toolkit nvidia-gds cudnn-cuda-12
 sudo apt purge -y nvidia-kernel-source-560-open && sudo apt install -V cuda-drivers-560 -y
 sudo apt install -y libnvidia-compute-560:i386 libnvidia-decode-560:i386 libnvidia-encode-560:i386 \
 libnvidia-extra-560:i386 libnvidia-fbc1-560:i386 libnvidia-gl-560:i386
-sleep 5
+sleep 51
 
 echo '***** Instalando navegador Brave' && sleep 2
 sudo apt install -y brave-browser
@@ -87,5 +88,6 @@ libc++abi-17-dev
 sleep 5
 
 echo '***** Instalando compilador Bazel' && sleep 2
-sudo apt install -y bazel default-jdk
+sudo apt install -y bazel-6.5.0 default-jdk
+sudo update-alternatives --install /usr/bin/bazel bazel /bin/bazel-6.5.0 50
 sleep 5
