@@ -52,30 +52,30 @@ Platform: linux-64
 conda update conda
 
 ### Math
-conda create -n math python=3.11.10 numpy scipy sympy ipython cython numba ipykernel numba::icc_rt matplotlib
+conda create -n math python=3.11.10 numpy scipy sympy ipython cython numba ipykernel numba::icc_rt matplotlib termcolor 
 pip install "jax[cuda12]"
 
 ### Jax
-conda create -n Jax tensorflow scikit-learn keras-tuner ipython matplotlib seaborn ipykernel
+conda create -n Jax tensorflow scikit-learn keras-tuner ipython matplotlib seaborn ipykernel termcolor
 pip install "jax[cuda12]"
 pip install nvidia-pyindex
 
 ### PyTorch
 conda create -n pyTorch pytorch::pytorch pytorch::torchvision pytorch::torchaudio pytorch::pytorch-cuda \
-keras keras-core scikit-learn keras-tuner ipython tensorflow matplotlib seaborn ipykernel
+keras keras-core scikit-learn keras-tuner ipython tensorflow matplotlib seaborn ipykernel termcolor
 pip install nvidia-pyindex
 
 ### TensorFlow
-conda create -n tensorFlow conda-forge::libboost-python-devel ipython cuda-libraries-dev ipykernel pip
+conda create -n tensorFlow conda-forge::libboost-python-devel ipython cuda-libraries-dev ipykernel pip termcolor
 pip install nvidia-pyindex
 pip install nvidia-cuda-runtime-cu12
 
 ### Intel Lab
-conda create -n Intel python=3.11.10 ninja spin pythran openssl
+conda create -n Intel python=3.11.10 ninja spin pythran openssl termcolor
 # COMPILE ALL PACKAGES
 
 ### GCC Lab
-conda create -n GCC python=3.11.10 ninja spin pythran openssl
+conda create -n GCC python=3.11.10 ninja spin pythran openssl termcolor
 conda install 
 # COMPILE ALL PACKAGES
 
