@@ -2,11 +2,6 @@
 
 echo '********************************************************************************'
 
-echo '***** Configurando contraseña de root' && sleep 2
-sudo su
-passwd
-exit
-
 echo '***** Instalando mensajeria'
 sudo snap install whatsdesk telegram-desktop spotify mailspring discord
 sudo snap install code --classic
@@ -51,21 +46,20 @@ speedtest-cli gnome-calendar python3-pip ttf-mscorefonts-installer qml-module-qt
 software-properties-common net-tools xz-utils environment-modules sqlite3 gdbmtool gnupg icecc moreutils ubuntu-dev-tools \
 ca-certificates gcc-12 g++-12 gfortran-12 bison yacc byacc inxi gperf autogen guile-3.0 texinfo texify texlive sphinx \
 gfortran-11 gawk gdc-12 m4 ncurses-term linux-headers-$(uname -r) qemu qemu-system qemu-user-static cmake flex \
-sqlite3-tools
+sqlite3-tools pkgconf pm-utils lzma lcov icecc-monitor patchelf python3-pythran
 sleep 5
 
 echo '***** Instalando librerías' && sleep 2
 sudo apt install -y libncurses-dev libqt5svg5 libssl-dev libgmp-dev libmpfr-dev glibc-tools libpurelibc-dev \
-libffi-dev zlib1g-dev libmpc-dev libsisl-dev  libreadline-dev libncursesw5-dev libsqlite3-dev tk-dev libgdbm-dev \
-libc6-dev libbz2-dev libncurses5-dev  liblzma-dev libmpdec-dev libopenblas-dev autotools-dev giblib-dev \
-libcqrlib-dev libopenlibm-dev libzstd-dev libisl-dev libintelrdfpmath-dev libtool-bin binutils-dev
-sleep 5
+libffi-dev zlib1g-dev libreadline-dev libncursesw5-dev libsqlite3-dev tk-dev libgdbm-dev libmpc-dev \
+libc6-dev libbz2-dev libncurses5-dev  liblzma-dev libopenblas-dev autotools-dev giblib-dev \
+libcqrlib-dev libopenlibm-dev libzstd-dev libisl-dev libintelrdfpmath-dev libtool-bin binutils-dev libpkgconf-dev libsx-dev \
+lzma-dev libopenblas-dev libopenblas64-dev
+sleep 5 
 
 echo '***** Instalando NVIDIA drivers y CUDA 12' && sleep 2
 sudo apt install cuda-toolkit nvidia-gds cudnn-cuda-12 
 sudo apt purge -y nvidia-kernel-source-560-open && sudo apt install -V cuda-drivers-560 -y
-sudo apt install -y libnvidia-compute-560:i386 libnvidia-decode-560:i386 libnvidia-encode-560:i386 \
-libnvidia-extra-560:i386 libnvidia-fbc1-560:i386 libnvidia-gl-560:i386
 sleep 51
 
 echo '***** Instalando navegador Brave' && sleep 2

@@ -1,0 +1,84 @@
+#################### Python and frameworks
+##### Conda Config
+sudo chmod 775 -R /opt/conda
+sudo chown root:reox -R /opt/conda
+
+nano $home/.oh-my-zsh/custom/conda.zsh
+# ----------------------------------------------------------------------
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/conda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/conda/etc/profile.d/conda.sh" ]; then
+        . "/opt/conda/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/conda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+function pip(){
+  if [ "${CONDA_PROMPT_MODIFIER-}" = "(base) " ] && [ "$1" = "install" ]; then
+    echo "Not allowed in base"
+  else
+    command pip "$@"
+  fi
+}
+
+function extended_conda(){
+  if [ "${CONDA_PROMPT_MODIFIER-}" = "(base) " ] && [ "$1" = "install" ]; then
+    echo "Not allowed in base"
+  else
+    conda "$@"
+  fi
+}
+alias conda=extended_conda
+# ----------------------------------------------------------------------
+
+conda config && nano .condarc
+# --------------------
+channels:
+  - nvidia
+  - conda-forge
+  - anaconda
+Solver: libmamba
+Platform: linux-64
+# --------------------
+
+##### Frameworks
+conda update conda
+
+### Math
+conda create -n math python=3.11.10 numpy scipy sympy ipython cython numba ipykernel numba::icc_rt matplotlib
+pip install "jax[cuda12]"
+
+### Jax
+conda create -n Jax tensorflow scikit-learn keras-tuner ipython matplotlib seaborn ipykernel
+pip install "jax[cuda12]"
+pip install nvidia-pyindex
+
+### PyTorch
+conda create -n pyTorch pytorch::pytorch pytorch::torchvision pytorch::torchaudio pytorch::pytorch-cuda \
+keras keras-core scikit-learn keras-tuner ipython tensorflow matplotlib seaborn ipykernel
+pip install nvidia-pyindex
+
+### TensorFlow
+conda create -n tensorFlow conda-forge::libboost-python-devel ipython cuda-libraries-dev ipykernel pip
+pip install nvidia-pyindex
+pip install nvidia-cuda-runtime-cu12
+
+### Intel Lab
+conda create -n Intel python=3.11.10 ninja spin pythran openssl
+# COMPILE ALL PACKAGES
+
+### GCC Lab
+conda create -n GCC python=3.11.10 ninja spin pythran openssl
+conda install 
+# COMPILE ALL PACKAGES
+
+### GPU tests
+python -c "import torch; print(torch.cuda.get_device_name(0))"
+python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"

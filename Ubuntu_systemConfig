@@ -1,0 +1,291 @@
+########## ########## ########## System Configuration File
+### Configurar contraseña de root
+sudo su
+passwd
+# Sincronizar firefox
+### Instalar Brave Browser
+sudo apt -y install curl
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg && echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+sudo apt update && sudo apt install -y brave-browser
+
+# Sync Brave y configurar wallet
+kiwi carry age please elder document ask fame aim crumble salmon defy
+
+### Configurar sistema 
+settings
+
+printf "RESUME=UUID=$(blkid | awk -F\" '/swap/ {print $2}')\n" | sudo tee /etc/initramfs-tools/conf.d/resume
+sudo update-initramfs -u -k all
+sudo systemctl enable fstrim.timer && sudo sysctl vm.swappiness=10
+
+# nanorc
+sudo nano /etc/nanorc
+	linenumbers
+	nonewlines
+	tabsize	
+
+#################### snap
+sudo snap install whatsdesk telegram-desktop spotify mailspring
+sudo snap install code --classic
+
+## mailspring codes
+#frapega
+nltp irlf sfad mkis
+#reoxforlife:
+rofl twdt xfrk xdsw
+#0004035-H:
+sufh aesf eenn wmzm
+
+#################### APT, Debs and APP basic configurations
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:obsproject/obs-studio
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update && sudo apt -y full-upgrade && sudo apt install -y ubuntu-restricted-extras build-essential tilix git htop nvtop gdu zsh gnome-tweaks \
+gnome-shell-extensions nautilus-dropbox htop nvtop gdu zsh gnome-tweaks gnome-shell-extensions nautilus-dropbox mpv neofetch unrar transmission-gtk \
+speedtest-cli gnome-calendar python3-pip ttf-mscorefonts-installer libncurses-dev libqt5svg5 qml-module-qtquick-controls openssh-server libssl-dev m4 \
+software-properties-common ncurses-term libreadline-dev libncursesw5-dev libsqlite3-dev tk-dev \
+libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev add-apt-key net-tools libgdbm-compat-dev libncurses5-dev xz-utils liblzma-dev \
+environment-modules sqlite3 gdbmtool gnupg libopenblas-dev icecc autotools-dev giblib-dev libcqrlib-dev libopenlibm-dev \
+moreutils ubuntu-dev-tools ca-certificates docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin gcc-12 g++-12 gfortran-12 \
+bison yacc byacc inxi gperf autogen guile-3.0 texinfo texify texlive sphinx libzstd-dev libisl-dev gfortran-11 gawk gdc-12 \
+libintelrdfpmath-dev cmake obs-studio flex libtool-bin binutils-dev libgmp-dev libmpfr-dev libmpc-dev re2c libmpdec-dev pkg-config
+
+sudo usermod -aG docker ${USER} && su - ${USER} && id -nG 
+
+wget https://github.com/lsd-rs/lsd/releases/download/v1.1.5/lsd-musl_1.1.5_amd64.deb
+wget https://github.com/sharkdp/bat/releases/download/v0.24.0/bat-musl_0.24.0_amd64.deb
+brave-browser https://www.libreoffice.org/download/download-libreoffice/
+
+## SSH-SERVER
+sudo systemctl enable --now ssh
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.initial
+sudo nano /etc/ssh/sshd_config
+	Port 22
+	PermitRootLogin no
+	PubkeyAuthentication yes
+	PermitEmptyPasswords no
+	AllowAgentForwarding yes
+	ClientAliveInterval 0
+	X11Forwarding yes
+	
+sudo systemctl restart ssh
+
+## git config
+git config --global user.email "reoxforlife@gmail.com"
+git config --global user.name "reox"
+
+## OHMYZSH
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+nano .zshrc
+	ZSH_THEME="agnoster"
+	# PLUGINS
+plugins=(git history colorize docker sudo
+ubuntu zsh-navigation-tools zsh-autosuggestions)
+
+nano .oh-my-zsh/themes/agnoster.zsh-theme
+	blue -> red
+	
+nano .oh-my-zsh/custom/tilix.zsh
+# -------------------
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
+fi
+# -------------------
+nano .oh-my-zsh/custom/aliases.zsh
+# -------------------
+alias ll='lsd -lh --group-dirs=first'
+alias la='lsd -a --group-dirs=first'
+alias l='lsd --group-dirs=first'
+alias lla='lsd -lha --group-dirs=first'
+alias ls='lsd --group-dirs=first'
+# -------------------
+alias cat='bat'
+# -------------------
+alias editrc='cd ~/.oh-my-zsh/custom'
+alias reloadrc='source ~/.zshrc'
+# -------------------
+alias cobra='conda activate'
+alias mangosta='conda deactivate'
+alias iaLab='conda activate iaLab'
+# -------------------
+alias logos='ssh -p 22 -X -Y reox@192.168.1.22'
+# -------------------
+alias intelCompilers='source /opt/intel/oneapi/setvars.sh intel64'
+
+## TILIX
+sudo update-alternatives --config x-terminal-emulator
+
+mkdir -p ~/.config/tilix/schemes
+wget -qO $HOME"/.config/tilix/schemes/pro.json" https://git.io/v7QaF
+sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
+
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+
+#################### System Theme
+#EXTENSIONS
+brave-browser https://extensions.gnome.org/extension/3740/compiz-alike-magic-lamp-effect/
+brave-browser https://extensions.gnome.org/extension/3210/compiz-windows-effect/
+brave-browser https://extensions.gnome.org/extension/19/user-themes/
+
+#THEMES
+brave-browser https://www.opendesktop.org/p/1136805/
+brave-browser https://www.gnome-look.org/p/1358330
+brave-browser https://www.gnome-look.org/p/1012430
+brave-browser https://www.gnome-look.org/p/1013030
+brave-browser https://www.gnome-look.org/p/1214931
+
+# configure tweaks
+
+#################### NVIDIA-CUDA-DRIVERS
+sudo chmod +x /usr/share/screen-resolution-extra/nvidia-polkit
+sudo nvidia-settings
+nvidia-settings
+
+sudo apt-get install linux-headers-$(uname -r)
+sudo apt-key del 7fa2af80
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb && rm cuda-keyring_1.1-1_all.deb
+￼
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-archive-keyring.gpg
+sudo mv cuda-archive-keyring.gpg /usr/share/keyrings/cuda-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/cuda-archive-keyring.gpg] https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /" | sudo tee /etc/apt/sources.list.d/cuda-ubuntu2204/x86_64.list
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+
+sudo apt update && sudo apt install -y cuda-toolkit nvidia-gds cudnn-cuda-12 && \
+sudo apt purge -y nvidia-kernel-source-560-open && sudo apt install -V cuda-drivers-560 && sudo apt autoremove -y
+reboot
+
+nano /home/reox/.oh-my-zsh/custom/paths.zsh
+export PATH=/usr/local/cuda-12.6/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-12.6/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+git clone https://github.com/NVIDIA/cuda-samples.git
+cd /home/reox/APPS/cuda-samples/Samples/1_Utilities/deviceQuery
+nice -n50 make TARGET_ARCH=x86_64 SMS="61"
+./deviceQuery
+cd /home/reox/APPS/cuda-samples/Samples/1_Utilities/bandwidthTest
+make TARGET_ARCH=x86_64 SMS="61"
+./bandwidthTest
+
+update-alternatives --display cuda
+update-alternatives --display cuda-12
+                         
+sudo nano /etc/X11/xorg.conf
+Section "Device"
+    Identifier     "Device0"
+    Driver         "nvidia"
+    VendorName     "NVIDIA Corporation"
+    BoardName      "NVIDIA GeForce GTX 1070"
+    BusID          "PCI:1:0:0"
+EndSection
+
+#################### VPN
+sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
+sudo usermod -aG nordvpn ${USER} && su - ${USER} && id -nG
+nordvpn login
+nordvpn set autoconnect on mx111
+nordvpn set dns 172.64.36.1
+nordvpn set routing on
+nordvpn set meshnet on
+nordvpn set lan-discovery on
+nordvpn whitelist add port 22
+nordvpn meshnet peer list
+nordvpn meshnet peer local allow
+nordvpn meshnet peer fileshare allow
+nordvpn meshnet peer auto-accept enable
+nordvpn set notify on
+
+#################### Compilers and Libraries
+### VIRTUAL BOX
+wget https://download.virtualbox.org/virtualbox/7.1.0/virtualbox-7.1_7.1.0-164728~Ubuntu~jammy_amd64.deb
+sudo dpkg -i *.deb
+
+###QUEMU
+sudo apt install qemu qemu-system qemu-user-static
+
+### LLVM
+sudo nano /etc/apt/sources.list
+deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main
+deb-src http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main
+
+wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+
+sudo apt update && sudo apt install -y libllvm-17-ocaml-dev libllvm17 llvm-17 llvm-17-dev llvm-17-doc \ 
+llvm-17-examples llvm-17-runtime clang-17 clang-tools-17 clang-17-doc libclang-common-17-dev \ 
+libclang-17-dev libclang1-17 clang-format-17 python3-clang-17 clangd-17 clang-tidy-17 \ 
+libclang-rt-17-dev lld-17 lldb-17 libc++-17-dev libc++abi-17-dev
+
+### BAZEL
+curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
+sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+sudo apt update && sudo apt install -y bazel-6.5 default-jdk
+
+### INTEL-COMPILERS
+brave-browser https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit-download.html?operatingsystem=linux&linux-install-type=offline
+brave-browser https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?operatingsystem=linux&linux-install-type=offline
+
+nano .oh-my-zsh/custom/paths.zsh
+alias intelCompilers='source /opt/intel/oneapi/setvars.sh intel64'
+
+export CXX=icpx
+export CC=icx
+export CPP='icx -E'
+export FC=ifx
+export F77=ifx
+export F90=ifx
+export LD=xild
+export AR=xiar
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=$C_INCLUDE_PATH
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+
+### GCC-14
+wget https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz
+tar xf gcc-14.2.0.tar.xz && cd gcc-14.2.0 && mkdir BUILD && cd BUILD
+wget https://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-13.3.0/gcc-13.3.0.tar.xz
+tar xf gcc-13.3.0.tar.xz && cd gcc-13.3.0 && mkdir BUILD && cd BUILD
+
+export CXX=g++
+export CC=gcc
+export CPP='cpp -E'
+export LD=ld
+export AR=ar
+export FC=gfortran
+export C_INCLUDE_PATH=$CPATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+
+export PREFIX=/opt/gcc-13
+./../configure --prefix=$PREFIX --program-suffix=-13 --enable-checking=release --enable-languages=c,c++,fortran --disable-multilib
+
+time nice -n20 gmake -j$(nproc)
+sudo nice -n20 gmake install -j$(nproc)
+
+## COnfigurate GCC alternatives
+sudo update-alternatives --install /usr/bin/gcc gcc /opt/gcc-14/bin/gcc-14 40 --slave /usr/bin/g++ g++ /opt/gcc-14/bin/g++-14 --slave /usr/bin/gcov gcov /opt/gcc-14/bin/gcov-14 --slave /usr/bin/gfortran gfortran /opt/gcc-14/bin/gfortran-14
+sudo update-alternatives --install /usr/bin/gcc gcc /opt/gcc-13/bin/gcc-13 30 --slave /usr/bin/g++ g++ /opt/gcc-13/bin/g++-13 --slave /usr/bin/gcov gcov /opt/gcc-13/bin/gcov-13 --slave /usr/bin/gfortran gfortran /opt/gcc-13/bin/gfortran-13
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 20 --slave /usr/bin/g++ g++ /usr/bin/g++-12 --slave /usr/bin/gcov gcov /usr/bin/gcov-12 --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-12 --slave /usr/bin/cpp cpp /usr/bin/cpp-12
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 10 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11 --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-11 --slave /usr/bin/cpp cpp /usr/bin/cpp-11
+
+sudo update-alternatives --install /usr/bin/cpp cpp /opt/gcc-14/bin/cpp-14 40
+sudo update-alternatives --install /usr/bin/cpp cpp /opt/gcc-13/bin/cpp-13 30
+sudo update-alternatives --install /usr/bin/cpp cpp /usr/bin/cpp-12 20
+sudo update-alternatives --install /usr/bin/cpp cpp /usr/bin/cpp-11 10
+
+sudo update-alternatives --config gcc
