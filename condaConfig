@@ -48,25 +48,31 @@ Solver: libmamba
 Platform: linux-64
 # --------------------
 
+pip install termcolor tqdm pyperformance
+
 ##### Frameworks
 conda update conda
 
 ### Math
-conda create -n math python=3.11.10 numpy scipy sympy ipython cython numba ipykernel numba::icc_rt matplotlib termcolor 
+conda create -n math python=3.11.10 numpy scipy sympy ipython cython numba ipykernel numba::icc_rt matplotlib \
+virtualenv termcolor tqdm
 pip install "jax[cuda12]"
 
 ### Jax
-conda create -n Jax tensorflow scikit-learn keras-tuner ipython matplotlib seaborn ipykernel termcolor
+conda create -n Jax tensorflow scikit-learn keras-tuner ipython matplotlib seaborn ipykernel \
+virtualenv termcolor tqdm 
 pip install "jax[cuda12]"
 pip install nvidia-pyindex
 
 ### PyTorch
 conda create -n pyTorch pytorch::pytorch pytorch::torchvision pytorch::torchaudio pytorch::pytorch-cuda \
-keras keras-core scikit-learn keras-tuner ipython tensorflow matplotlib seaborn ipykernel termcolor
+keras keras-core scikit-learn keras-tuner ipython tensorflow matplotlib seaborn ipykernel \
+virtualenv termcolor tqdm
 pip install nvidia-pyindex
 
 ### TensorFlow
-conda create -n tensorFlow conda-forge::libboost-python-devel ipython cuda-libraries-dev ipykernel pip termcolor
+conda create -n tensorFlow conda-forge::libboost-python-devel ipython cuda-libraries-dev ipykernel pip \
+virtualenv termcolor tqdm
 pip install nvidia-pyindex
 pip install nvidia-cuda-runtime-cu12
 
